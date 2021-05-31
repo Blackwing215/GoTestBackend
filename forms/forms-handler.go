@@ -34,10 +34,10 @@ func MakeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 var templates = template.Must(template.ParseFiles(
-	"create.html",
-	"deposit.html",
-	"withdraw.html",
-	"view.html"))
+	"forms/create.html",
+	"forms/deposit.html",
+	"forms/withdraw.html",
+	"forms/view.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, c Client) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", c)

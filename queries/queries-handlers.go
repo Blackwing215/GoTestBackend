@@ -74,7 +74,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	output := "/request/view?name="
+	output := "/queries/view?name="
 
 	for i, owner := range names {
 		sum, err := strconv.Atoi(balances[i])
@@ -112,7 +112,7 @@ func WithdrawHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	output := "/request/view?name="
+	output := "/queries/view?name="
 
 	for i, owner := range names {
 		sum, err := strconv.Atoi(balances[i])
@@ -150,7 +150,7 @@ func DepositHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	output := "/request/view?name="
+	output := "/queries/view?name="
 
 	for i, owner := range names {
 		sum, err := strconv.Atoi(balances[i])

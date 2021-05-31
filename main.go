@@ -2,51 +2,39 @@ package main
 
 import (
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+
 	"testbackend/forms"
 	"testbackend/queries"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
-
-type Configuration struct {
-	Login    string
-	Password string
-	Db       string
-}
 
 type Client struct {
 	Owner   string
 	Balance int
 }
 
-var (
-	db     *sql.DB
-	config Configuration
-)
+var db *sql.DB
 
 func init() {
-	file, err := os.Open("config.json")
-	if err != nil {
-		fmt.Println("Unable to read configuration file!")
-		log.Fatal(err)
-	}
-	defer file.Close()
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&config)
-	if err != nil {
-		fmt.Println("Unable to read configuration file!")
-		log.Fatal(err)
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
 	}
 }
 
 func main() {
 	var err error
-	db, err = sql.Open("mysql", config.Login+":"+config.Password+"@/"+config.Db)
+	dburl := os.Getenv("DB_USER") + ":" +
+		os.Getenv("DB_PASSWORD") + "@tcp(" +
+		os.Getenv("DB_HOST") + ":" +
+		os.Getenv("DB_PORT") + ")/" +
+		os.Getenv("DB_NAME")
+	db, err = sql.Open(os.Getenv("DB_DRIVER"), dburl)
+	//db, err = sql.Open("mysql", config.Login+":"+config.Password+"@/"+config.Db)
 	if err != nil {
 		panic(err)
 	}
